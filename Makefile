@@ -1,8 +1,14 @@
-.PHONY: test_deploy deploy
+.PHONY: clean build test_deploy deploy
 
-test_deploy:
+clean:
+	rm -rf build dist *.egg-info
+
+build:
+	python setup.py sdist bdist_wheel
+
+test_deploy: clean build
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*	
 
-deploy:
+deploy: clean build
 	twine upload dist/*
 

@@ -1,4 +1,6 @@
-# manga109_api
+# Manga109 API
+
+[![PyPI version](https://badge.fury.io/py/manga109api.svg)](https://badge.fury.io/py/manga109api)
 
 Simple python API to read annotation data of [Manga109](http://www.manga109.org/en/).
 
@@ -23,7 +25,7 @@ with some utility functions such as reading an image.
 ## Installing
 You can install the package via pip. The library works with Python 3.5+ on linux
 ```bash
-pip install manga109_api
+pip install manga109api
 ```
 
 ## Example
@@ -32,11 +34,11 @@ You can insantiate a parser with the path to the root directory of Manga109.
 The annotations are available via the parser.
 
 ```python
-import manga109_api
+import manga109api
 from pprint import pprint
 
 manga109_root_dir = "YOUR_DIR/Manga109_2017_09_28"
-p = manga109_api.Parser(root_dir=manga109_root_dir)
+p = manga109api.Parser(root_dir=manga109_root_dir)
 
 print(p.books)
 # ['ARMS', 'AisazuNihaIrarenai', 'AkkeraKanjinchou', 'Akuhamu', 'AosugiruHaru', ...
