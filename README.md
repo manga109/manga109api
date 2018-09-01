@@ -5,8 +5,8 @@ Simple python API to read annotation data of [Manga109](http://www.manga109.org/
 Manga109 is the largest dataset for manga (Japanese comic) images,
 that is made publicly available for academic research purpose with proper copyright notation.
 
-To download images/annotations of Manga109, please go [here](http://www.manga109.org/en/download) and send the form.
-After sending the form, you will receive the password for downloading images (109 titles of manga
+To download images/annotations of Manga109, please visit [here](http://www.manga109.org/en/download) and send an application via the form.
+After that, you will receive the password for downloading images (109 titles of manga
 as jpeg files)
 and annotations (bounding box coordinates of face, body, frame, and speech balloon with texts,
 in the form of XML).
@@ -67,7 +67,9 @@ pprint(p.annotations["ARMS"])
 #                                        '@xmin': 406,
 # ...
 
-pprint(p.annotations["ARMS"]["book"]["pages"]["page"][6])  # annotations of the 7th page
+
+# annotations of the 7th page
+pprint(p.annotations["ARMS"]["book"]["pages"]["page"][6])
 # {'@height': 1170,
 #  '@index': 6,
 #  '@width': 1654,
@@ -85,16 +87,60 @@ pprint(p.annotations["ARMS"]["book"]["pages"]["page"][6])  # annotations of the 
 #            '@ymin': 314},
 # ... 
 
-print(p.img_path(book="ARMS", index=6))  # image path to the 7th page
+
+# image path to the 7th page
+print(p.img_path(book="ARMS", index=6))  
 # YOUR_DIR/Manga109_2017_09_28/images/ARMS/006.jpg
 
 ```
 
-An example of visualization is as follows.
+The text data is also available:
 ```python
-import matplotlib as plt
-
+pprint([roi["#text"] for roi in p.annotations["ARMS"]["book"]["pages"]["page"][6]["text"]])
+# ['どこへ行きやがった!?',
+#  'ティーザー＝電気ショックによる麻痺銃',
+#  'えーいちょろちょろと',
+#  'あつっ',
+#  'そこだ!',
+#  '出て来て正々堂々と戦え!',
+#  '!',
+#  '私を生捕りにする気!?',
+#  '卑怯者っ',
+#  'ティーザー!!',
+#  'やろォ',
+#  'キャア',
+#  'あっまた逃げた',
+#  'わーっ']
 ```
+
+An example of visualization is as follows
+```python
+from PIL import Image, ImageDraw
+
+def draw_rectangle(img, x0, y0, x1, y1, annotation_type):
+    assert annotation_type in ["body", "face", "frame", "text"]
+    color = {"body": "#258039", "face": "#f5be41",
+             "frame": "#31a9b8", "text": "#cf3721"}[annotation_type]
+    width = 10
+    draw = ImageDraw.Draw(img)
+    draw.line([x0 - width/2, y0, x1 + width/2, y0], fill=color, width=width)
+    draw.line([x1, y0, x1, y1], fill=color, width=width)
+    draw.line([x1 + width/2, y1, x0 - width/2, y1], fill=color, width=width)
+    draw.line([x0, y1, x0, y0], fill=color, width=width)
+
+
+img = Image.open(p.img_path(book="ARMS", index=6))
+for annotation_type in ["body", "face", "frame", "text"]:
+    rois = p.annotations["ARMS"]["book"]["pages"]["page"][6][annotation_type]
+    for roi in rois:
+        draw_rectangle(img, roi["@xmin"], roi["@ymin"], roi["@xmax"], roi["@ymax"], annotation_type)
+
+img.show()
+```
+![](http://yusukematsui.me/project/sketch2manga/img/manga109_api_example.png)
+ARMS, (c) Kato Masaki
+
+
 
 
 ## Author
