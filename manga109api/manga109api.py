@@ -4,12 +4,15 @@ import xmltodict
 
 
 class Parser(object):
-    def __init__(self, root_dir):
+    def __init__(self, root_dir, book_titles="all"):
         """
         Manga109 annotation parser
 
         Args:
             root_dir (str): The path of the root directory of Manga109 data, e.g., 'YOUR_PATH/Manga109_2017_09_28'
+            book_titles (str or list): The book titles to be parsed.
+                For example, if book_titles = ["ARMS", "AisazuNihaIrarenai"], these two books are read.
+                The default value is "all", where all books are read
         """
         self.root_dir = pathlib.Path(root_dir)
         self.books = []  # book titles
@@ -19,6 +22,8 @@ class Parser(object):
             self.books = [line.rstrip() for line in f]
 
         for book in self.books:
+            if book_titles != "all" and book not in book_titles:
+                continue
             with (self.root_dir / "annotations" / (book + ".xml")).open("rt") as f:
                 annotation = xmltodict.parse(f.read())
             annotation = json.loads(json.dumps(annotation))  # OrderedDict -> dict

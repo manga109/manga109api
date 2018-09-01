@@ -31,7 +31,7 @@ pip install manga109api
 ## Example
 
 You can insantiate a parser with the path to the root directory of Manga109.
-The annotations are available via the parser.
+The annotations are available via the parser. 
 
 ```python
 import manga109api
@@ -39,10 +39,17 @@ from pprint import pprint
 
 manga109_root_dir = "YOUR_DIR/Manga109_2017_09_28"
 p = manga109api.Parser(root_dir=manga109_root_dir)
-
+```
+After parsing, you can see the book titles by `p.books`: 
+```python
 print(p.books)
 # ['ARMS', 'AisazuNihaIrarenai', 'AkkeraKanjinchou', 'Akuhamu', 'AosugiruHaru', ...
+```
+Note that all books are parsed by default. If you'd like to parse only some of them, you can specify the book titles, e.g.: `p = manga109api.Parser(root_dir=manga109_root_dir, book_titles=["ARMS", "AisazuNihaIrarenai"])`, where the selected two books will be parsed.
 
+
+Here, you can access the annotations by `p.annotations`:
+```python
 pprint(p.annotations["ARMS"])
 # {'book': {'@title': 'ARMS',
 #           'characters': {'character': [{'@id': '00000003', '@name': '女1'},
@@ -68,9 +75,15 @@ pprint(p.annotations["ARMS"])
 #                                        '@xmax': 456,
 #                                        '@xmin': 406,
 # ...
-
-
-# annotations of the 7th page
+```
+As can be seen, you can see the parsed result as a dictionary.
+The attributes of XML are denoted with an @ symbol.
+Note that the parsed result contains some redundant descriptions such as `'pages': {'page': ...`.
+It is because the result is a direct translation from xml to python dict via `xmltodict` package,
+where we decided not to omit any information.
+  
+The following example shows the annotations of the 7th page of "ARMS".
+```python
 pprint(p.annotations["ARMS"]["book"]["pages"]["page"][6])
 # {'@height': 1170,
 #  '@index': 6,
@@ -88,12 +101,13 @@ pprint(p.annotations["ARMS"]["book"]["pages"]["page"][6])
 #            '@ymax': 451,
 #            '@ymin': 314},
 # ... 
+```
 
-
-# image path to the 7th page
+You can know the path to the original image by the helper function `p.img_path()`.
+The 7th page of "ARMS" can be specified by the following code.
+```python
 print(p.img_path(book="ARMS", index=6))  
 # YOUR_DIR/Manga109_2017_09_28/images/ARMS/006.jpg
-
 ```
 
 The text data is also available:

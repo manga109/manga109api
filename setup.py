@@ -5,7 +5,7 @@ with open('README.md') as f:
 
 setup(
     name='manga109api',
-    version='0.1.0',
+    version='0.1.1',
     description='Simple python API to read annotation data of Manga109',
     long_description=readme,
     long_description_content_type='text/markdown',
