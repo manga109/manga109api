@@ -1,6 +1,7 @@
 # Manga109 API
 
 [![PyPI version](https://badge.fury.io/py/manga109api.svg)](https://badge.fury.io/py/manga109api)
+[![Downloads](https://pepy.tech/badge/manga109api)](https://pepy.tech/project/manga109api)
 
 Simple python API to read annotation data of [Manga109](http://www.manga109.org/en/).
 
