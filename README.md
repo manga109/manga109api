@@ -18,9 +18,9 @@ with some utility functions such as reading an image.
 
 ## Links
 - [Manga109](http://www.manga109.org/en/)
-- [Details of annotation data](http://www.manga109.org/en/annotations)
-- The original reference paper for Manga109: [[Matsui+, MTAP 2017]](https://link.springer.com/content/pdf/10.1007%2Fs11042-016-4020-z.pdf)
-- The paper introducing the annotation data, with the application of object detection (SSD-fork): [[Ogawa+, arXiv 2018]](https://arxiv.org/pdf/1803.08670)
+- [Details of annotation data](http://www.manga109.org/en/annotations.html)
+- [[Matsui+, MTAP 2017]](https://link.springer.com/content/pdf/10.1007%2Fs11042-016-4020-z.pdf): The original paper for Manga109. **Please cite this if you use manga109 images**
+- [[Ogawa+, arXiv 2018]](https://arxiv.org/pdf/1803.08670): The paper introducing (1) the annotation data and (2) a detection method (SSD-fork). **Please cite this if you use manga109 annotation data**
 
 ## Installing
 You can install the package via pip. The library works with Python 3.5+ on linux
