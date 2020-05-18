@@ -21,7 +21,7 @@ with some utility functions such as reading an image.
 - [Manga109](http://www.manga109.org/en/)
 - [Details of annotation data](http://www.manga109.org/en/annotations.html)
 - [[Matsui+, MTAP 2017]](https://link.springer.com/content/pdf/10.1007%2Fs11042-016-4020-z.pdf): The original paper for Manga109. **Please cite this if you use manga109 images**
-- [[Ogawa+, arXiv 2018]](https://arxiv.org/pdf/1803.08670): The paper introducing (1) the annotation data and (2) a detection method (SSD-fork). **Please cite this if you use manga109 annotation data**
+- [[Aizawa+, IEEE MultiMedia 2020]](https://arxiv.org/abs/2005.04425): The paper introducing (1) the annotation data and (2) a few examples of multimedia processing applications (detection, retrieval, and generation). **Please cite this if you use manga109 annotation data**
 
 ## Installing
 You can install the package via pip. The library works with Python 3.5+ on linux
@@ -178,10 +178,10 @@ When you make use of images in Manga109, please cite the following paper:
 
 When you use annotation data of Manga109, please cite this:
 
-    @article{corr_ogawa_2018,
-        author={Toru Ogawa and Atsushi Otsubo and Rei Narita and Yusuke Matsui and Toshihiko Yamasaki and Kiyoharu Aizawa},
-        title={Object Detection for Comics using Manga109 Annotations},
-        journal={CoRR},
-        volume={abs/1803.08670},
-        year={2018}
+    @article{multimedia_aizawa_2020,
+        author={Kiyoharu Aizawa and Azuma Fujimoto and Atsushi Otsubo and Toru Ogawa and Yusuke Matsui and Koki Tsubota and Hikaru Ikuta},
+        title={Building a Manga Dataset "Manga109" with Annotations for Multimedia Applications},
+        journal={IEEE MultiMedia},
+        doi = {10.1109/mmul.2020.2987895},
+        year={2020}
     }
