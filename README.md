@@ -6,7 +6,7 @@
 Simple python API to read annotation data of [Manga109](http://www.manga109.org/en/).
 
 Manga109 is the largest dataset for manga (Japanese comic) images,
-that is made publicly available for academic research purpose with proper copyright notation.
+that is made publicly available for academic research purposes with proper copyright notation.
 
 To download images/annotations of Manga109, please visit [here](http://www.manga109.org/en/download.html) and send an application via the form.
 After that, you will receive the password for downloading images (109 titles of manga
@@ -31,7 +31,7 @@ pip install manga109api
 
 ## Example
 
-You can insantiate a parser with the path to the root directory of Manga109.
+You can instantiate a parser with the path to the root directory of Manga109.
 The annotations are available via the parser. 
 
 ```python
@@ -182,6 +182,6 @@ When you use annotation data of Manga109, please cite this:
         author={Kiyoharu Aizawa and Azuma Fujimoto and Atsushi Otsubo and Toru Ogawa and Yusuke Matsui and Koki Tsubota and Hikaru Ikuta},
         title={Building a Manga Dataset "Manga109" with Annotations for Multimedia Applications},
         journal={IEEE MultiMedia},
-        doi = {10.1109/mmul.2020.2987895},
+        doi={10.1109/mmul.2020.2987895},
         year={2020}
     }
