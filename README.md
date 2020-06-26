@@ -149,6 +149,8 @@ def draw_rectangle(img, x0, y0, x1, y1, annotation_type):
 img = Image.open(p.img_path(book="ARMS", index=6))
 for annotation_type in ["body", "face", "frame", "text"]:
     rois = p.annotations["ARMS"]["book"]["pages"]["page"][6][annotation_type]
+    if type(rois) is dict:
+        rois = [rois]
     for roi in rois:
         draw_rectangle(img, roi["@xmin"], roi["@ymin"], roi["@xmax"], roi["@ymax"], annotation_type)
 
