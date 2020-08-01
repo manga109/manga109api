@@ -33,6 +33,7 @@ class Parser(object):
         with (self.root_dir / "annotations" / (book + ".xml")).open("rt", encoding='utf-8') as f:
             annotation = xmltodict.parse(f.read())
         annotation = json.loads(json.dumps(annotation))  # OrderedDict -> dict
+        annotation = _format_annotation(annotation)  # アノテーションの整形
         _convert_str_to_int_recursively(annotation)  # str -> int, for some attributes
         return annotation
 
@@ -50,6 +51,41 @@ class Parser(object):
         assert book in self.books
         assert isinstance(index, int)
         return str((self.root_dir / "images" / book / (str(index).zfill(3) + ".jpg")).resolve())
+
+
+def _format_annotation(annotation):
+    """
+    複雑な階層構造をシンプルにする処理
+    """
+
+    title = annotation['book']['@title']
+    character = annotation['book']['characters']['character']
+    page = annotation['book']['pages']['page']
+
+    if not isinstance(character, list):
+        character = [character]
+    if not isinstance(page, list):
+        page = [page]
+    _format_page_dict_style(page)
+
+    return {
+        'title': title,
+        'character': character,
+        'page': page
+    }
+
+
+def _format_page_dict_style(page):
+    """
+    各ページのアノテーションについて、存在しないキーを補いbody・face・frame・textをlist型に揃える
+    """
+    required_keys = {'@index', '@width', '@height', 'body', 'face', 'frame', 'text'}
+    for i, p in enumerate(page):
+        for k in required_keys - set(p.keys()):  # FIXME: 存在しないキーを補う処理だが必要ないかも（index, width, heightはリスト型で合ってるのか？）
+            page[i][k] = []
+        for k in ['body', 'face', 'frame', 'text']:
+            if not isinstance(p[k], list):
+                page[i][k] = [page[i][k]]
 
 
 def _convert_str_to_int_recursively(annotation):
