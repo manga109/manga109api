@@ -16,19 +16,25 @@ class Parser(object):
         """
         self.root_dir = pathlib.Path(root_dir)
         self.books = []  # book titles
-        self.annotations = {}  # annotation in the form of dict
 
-        with (self.root_dir / "books.txt").open("rt", encoding= 'utf-8') as f:
+        with (self.root_dir / "books.txt").open("rt", encoding='utf-8') as f:
             self.books = [line.rstrip() for line in f]
 
-        for book in self.books:
-            if book_titles != "all" and book not in book_titles:
-                continue
-            with (self.root_dir / "annotations" / (book + ".xml")).open("rt", encoding= 'utf-8') as f:
-                annotation = xmltodict.parse(f.read())
-            annotation = json.loads(json.dumps(annotation))  # OrderedDict -> dict
-            _convert_str_to_int_recursively(annotation)  # str -> int, for some attributes
-            self.annotations[book] = annotation
+    def get_annotation(self, book):
+        """
+        タイトルを引数にアノテーションを返す
+
+        Args:
+            book (str): 漫画のタイトル
+
+        Returns:
+            dict: 漫画のアノテーション 
+        """
+        with (self.root_dir / "annotations" / (book + ".xml")).open("rt", encoding='utf-8') as f:
+            annotation = xmltodict.parse(f.read())
+        annotation = json.loads(json.dumps(annotation))  # OrderedDict -> dict
+        _convert_str_to_int_recursively(annotation)  # str -> int, for some attributes
+        return annotation
 
     def img_path(self, book, index):
         """
