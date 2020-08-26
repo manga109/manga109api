@@ -19,17 +19,19 @@ class Parser(object):
 
     def get_annotation(self, book):
         """
-        Given a book title, return annotation in the form of dict
+        Given a book title, return annotation in the form of dict.
 
         Args:
             book (str): A title of a book. Should be in self.books.
 
         Returns:
-            annotation (dict): 
+            annotation (dict): Annotation data consists of dict.
         """
+        assert book in self.books
         with (self.root_dir / "annotations" / (book + ".xml")).open("rt", encoding= 'utf-8') as f:
             annotation = xmltodict.parse(f.read())
         annotation = json.loads(json.dumps(annotation))  # OrderedDict -> dict
+        annotation = _format_annotation(annotation)
         _convert_str_to_int_recursively(annotation)  # str -> int, for some attributes
         return annotation
 
@@ -47,6 +49,50 @@ class Parser(object):
         assert book in self.books
         assert isinstance(index, int)
         return str((self.root_dir / "images" / book / (str(index).zfill(3) + ".jpg")).resolve())
+
+def _format_annotation(annotation):
+    """
+    Given annotation data, convert to an easily accessible dict.
+    For example, dict['book']['characters']['character'] -> dict['character']
+
+    Args:
+        annotation (dict): Annotation data. Root key is 'book'.
+
+    Returns:
+        annotation (dict): Annotation data. Root keys are 'title', 'character' and 'page'.
+    """
+
+    title = annotation['book']['@title']
+    character = annotation['book']['characters']['character']
+    page = annotation['book']['pages']['page']
+
+    if not isinstance(character, list):
+        character = [character]
+    if not isinstance(page, list):
+        page = [page]
+    _format_page_dict_style(page)
+
+    return {
+        'title': title,
+        'character': character,
+        'page': page
+    }
+
+
+def _format_page_dict_style(page):
+    """
+    Format page annotation data. Make page data have the same key, and align the style of dict.
+
+    Args:
+        page (dict): Annotation data for all pages including info such as frame, text, etc.
+    """
+    types = ['body', 'face', 'frame', 'text']
+    for i, p in enumerate(page):
+        for t in set(types) - set(p.keys()):
+            page[i][t] = []
+        for t in types:
+            if not isinstance(p[t], list):
+                page[i][t] = [page[i][t]]
 
 
 def _convert_str_to_int_recursively(annotation):
