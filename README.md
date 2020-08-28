@@ -17,6 +17,10 @@ in the form of XML).
 This package provides a simple Python API to read annotation data (i.e., parsing XML)
 with some utility functions such as reading an image.
 
+## News
+- [Aug XX, 2020]: v0.2.0 will be released. [The API will be drastically improved](https://github.com/matsui528/manga109api/pull/8), thanks for [@i3ear](https://github.com/i3ear)!
+- [Aug XX, 2020]: The repository is moved to [manga109 organization](https://github.com/manga109)
+
 ## Links
 - [Manga109](http://www.manga109.org/en/)
 - [Details of annotation data](http://www.manga109.org/en/annotations.html)
@@ -31,130 +35,128 @@ pip install manga109api
 
 ## Example
 
-You can instantiate a parser with the path to the root directory of Manga109.
-The annotations are available via the parser. 
-
 ```python
 import manga109api
 from pprint import pprint
 
+# Instantiate a parser with the root directory of Manga109
 manga109_root_dir = "YOUR_DIR/Manga109_2017_09_28"
 p = manga109api.Parser(root_dir=manga109_root_dir)
-```
-After parsing, you can see the book titles by `p.books`: 
-```python
+
+# See the book titles by p.books 
 print(p.books)
-# ['ARMS', 'AisazuNihaIrarenai', 'AkkeraKanjinchou', 'Akuhamu', 'AosugiruHaru', ...
-```
-Note that all books are parsed by default. If you'd like to parse only some of them, you can specify the book titles, e.g.: `p = manga109api.Parser(root_dir=manga109_root_dir, book_titles=["ARMS", "AisazuNihaIrarenai"])`, where the selected two books will be parsed.
+# Output: ['ARMS', 'AisazuNihaIrarenai', 'AkkeraKanjinchou', 'Akuhamu', ...
 
+# Access the annotation by p.get_annotation(book)
+annotation = p.get_annotation(book="ARMS")
 
-Here, you can access the annotations by `p.annotations`:
-```python
-pprint(p.annotations["ARMS"])
-# {'book': {'@title': 'ARMS',
-#           'characters': {'character': [{'@id': '00000003', '@name': '女1'},
-#                                        {'@id': '00000010', '@name': '男1'},
-#                                        {'@id': '00000090', '@name': 'ロボット1'},
-#                                        {'@id': '000000fe', '@name': 'エリー'},
-#                                        {'@id': '0000010a', '@name': 'ケイト'},
-#                                        {'@id': '0000010e', '@name': '大佐'},
-# ...
-#           'pages': {'page': [{'@height': 1170, '@index': 0, '@width': 1654},
-#                              {'@height': 1170, '@index': 1, '@width': 1654},
-#                              {'@height': 1170,
-#                               '@index': 2,
-#                               '@width': 1654,
-#                               'body': {'@character': '00000003',
-#                                        '@id': '00000002',
-#                                        '@xmax': 548,
-#                                        '@xmin': 178,
-#                                        '@ymax': 965,
-#                                        '@ymin': 660},
-#                               'face': {'@character': '00000003',
-#                                        '@id': '00000004',
-#                                        '@xmax': 456,
-#                                        '@xmin': 406,
-# ...
-```
-As can be seen, you can see the parsed result as a dictionary.
-The attributes of XML are denoted with an @ symbol.
-Note that the parsed result contains some redundant descriptions such as `'pages': {'page': ...`.
-It is because the result is a direct translation from xml to python dict via `xmltodict` package,
-where we decided not to omit any information.
-  
-The following example shows the annotations of the 7th page of "ARMS".
-```python
-pprint(p.annotations["ARMS"]["book"]["pages"]["page"][6])
-# {'@height': 1170,
-#  '@index': 6,
-#  '@width': 1654,
-#  'body': [{'@character': '00000010',
-#            '@id': '00000057',
-#            '@xmax': 1155,
-#            '@xmin': 1089,
-#            '@ymax': 253,
-#            '@ymin': 166},
+# annotation is a dictionary. Keys are "title", "character", and "page":
+# - annotation["title"] : (str) Title
+# - annotation["character"] : (list) Characters who appeared in the book
+# - annotation["page"] : (list) The main annotation data for each page
+
+# (1) title
+print(annotation["title"])  # Output (str): ARMS
+
+# (2) character
+pprint(annotation["character"])
+# Output (list):
+# [{'@id': '00000003', '@name': '女1'},
+#  {'@id': '00000010', '@name': '男1'},
+#  {'@id': '00000090', '@name': 'ロボット1'},
+#  {'@id': '000000fe', '@name': 'エリー'},
+#  {'@id': '0000010a', '@name': 'ケイト'}, ... ]
+
+# (3) page
+# annotation["page"] is the main annotation data (list of pages)
+# E.g., annotation["page"][3] returns the data of 4th page of "ARMS"
+pprint(annotation["page"][3])
+# Output (dict):
+# {'@height': 1170,    <- Height of the img
+#  '@index': 3,        <- The page number
+#  '@width': 1654,     <- Width of the img
+#  'body': [{'@character': '00000003',     <- Character body annotations
+#            '@id': '00000006',
+#            '@xmax': 1352,
+#            '@xmin': 1229,
+#            '@ymax': 875,
+#            '@ymin': 709},
+#           {'@character': '00000003',   <- character ID
+#            '@id': '00000008',          <- annotation ID (unique)
+#            '@xmax': 1172,
+#            '@xmin': 959,
+#            '@ymax': 1089,
+#            '@ymin': 820}, ... ],
+#  'face': [{'@character': '00000003',     <- Character face annotations
+#            '@id': '0000000a',
+#            '@xmax': 1072,
+#            '@xmin': 989,
+#            '@ymax': 941,
+#            '@ymin': 890},
 #           {'@character': '00000003',
-#            '@id': '0000005f',
-#            '@xmax': 302,
-#            '@xmin': 125,
-#            '@ymax': 451,
-#            '@ymin': 314},
-# ... 
+#            '@id': '0000000d',
+#            '@xmax': 453,
+#            '@xmin': 341,
+#            '@ymax': 700,
+#            '@ymin': 615}, ... ],
+#  'frame': [{'@id': '00000009',        <- Frame annotations
+#             '@xmax': 1170,
+#             '@xmin': 899,
+#             '@ymax': 1085,
+#             '@ymin': 585},
+#            {'@id': '0000000c',
+#             '@xmax': 826,
+#             '@xmin': 2,
+#             '@ymax': 513,
+#             '@ymin': 0}, ... ],
+#  'text': [{'#text': 'キャーッ',     <- Speech annotations
+#            '@id': '00000005',
+#            '@xmax': 685,
+#            '@xmin': 601,
+#            '@ymax': 402,
+#            '@ymin': 291},
+#           {'#text': 'はやく逃げないとまきぞえくっちゃう',   <- Text data
+#            '@id': '00000007',
+#            '@xmax': 1239,
+#            '@xmin': 1155,
+#            '@ymax': 686,
+#            '@ymin': 595} ... ]}
+
+
+# Utility function.
+# p.img_path() gives you the path to the image data. The following line returns the path to the 4th image of ARMS
+print(p.img_path(book="ARMS", index=3))  
+# Output (str): YOUR_DIR/Manga109_2017_09_28/images/ARMS/003.jpg
 ```
 
-You can know the path to the original image by the helper function `p.img_path()`.
-The 7th page of "ARMS" can be specified by the following code.
-```python
-print(p.img_path(book="ARMS", index=6))  
-# YOUR_DIR/Manga109_2017_09_28/images/ARMS/006.jpg
-```
 
-The text data is also available:
+## Demo of visualization
 ```python
-pprint([roi["#text"] for roi in p.annotations["ARMS"]["book"]["pages"]["page"][6]["text"]])
-# ['どこへ行きやがった!?',
-#  'ティーザー＝電気ショックによる麻痺銃',
-#  'えーいちょろちょろと',
-#  'あつっ',
-#  'そこだ!',
-#  '出て来て正々堂々と戦え!',
-#  '!',
-#  '私を生捕りにする気!?',
-#  '卑怯者っ',
-#  'ティーザー!!',
-#  'やろォ',
-#  'キャア',
-#  'あっまた逃げた',
-#  'わーっ']
-```
-
-An example of visualization is as follows
-```python
+import manga109api
 from PIL import Image, ImageDraw
 
 def draw_rectangle(img, x0, y0, x1, y1, annotation_type):
     assert annotation_type in ["body", "face", "frame", "text"]
     color = {"body": "#258039", "face": "#f5be41",
              "frame": "#31a9b8", "text": "#cf3721"}[annotation_type]
-    width = 10
     draw = ImageDraw.Draw(img)
-    draw.line([x0 - width/2, y0, x1 + width/2, y0], fill=color, width=width)
-    draw.line([x1, y0, x1, y1], fill=color, width=width)
-    draw.line([x1 + width/2, y1, x0 - width/2, y1], fill=color, width=width)
-    draw.line([x0, y1, x0, y0], fill=color, width=width)
+    draw.rectangle([x0, y0, x1, y1], outline=color, width=10)
 
+if __name__ == "__main__":
+    manga109_root_dir = "YOUR_DIR/Manga109_2017_09_28"
+    book = "ARMS"
+    page_index = 6
 
-img = Image.open(p.img_path(book="ARMS", index=6))
-for annotation_type in ["body", "face", "frame", "text"]:
-    rois = p.annotations["ARMS"]["book"]["pages"]["page"][6][annotation_type]
-    if type(rois) is dict:
-        rois = [rois]
-    for roi in rois:
-        draw_rectangle(img, roi["@xmin"], roi["@ymin"], roi["@xmax"], roi["@ymax"], annotation_type)
+    p = manga109api.Parser(root_dir=manga109_root_dir)
+    annotation = p.get_annotation(book=book)
+    img = Image.open(p.img_path(book=book, index=page_index))
 
-img.show()
+    for annotation_type in ["body", "face", "frame", "text"]:
+        rois = annotation["page"][page_index][annotation_type]
+        for roi in rois:
+            draw_rectangle(img, roi["@xmin"], roi["@ymin"], roi["@xmax"], roi["@ymax"], annotation_type)
+
+    img.save("out.jpg")
 ```
 ![](http://yusukematsui.me/project/sketch2manga/img/manga109_api_example.png)
 ARMS, (c) Kato Masaki
@@ -162,8 +164,9 @@ ARMS, (c) Kato Masaki
 
 
 
-## Author
-- [Yusuke Matsui](http://yusukematsui.me/)
+## Maintainers
+- [@matsui528](https://github.com/matsui528)
+
 
 ## Citation
 When you make use of images in Manga109, please cite the following paper:
