@@ -13,4 +13,4 @@ deploy: clean build
 	twine upload dist/*
 
 test:
-	pytest tests/*
+	python -m pytest tests/*
