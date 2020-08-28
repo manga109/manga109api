@@ -1,0 +1,38 @@
+<book title="TitleA">
+  <characters>
+    <character id="00000003" name="女1"/>
+    <character id="00000010" name="男1"/>
+    <character id="00000012" name="ロボット1"/>
+    <character id="00000014" name="Others"/>
+  </characters>
+  <pages>
+    <page index="0" width="1654" height="1170"/>
+    <page index="1" width="1654" height="1170"/>
+    <page index="2" width="1654" height="1170">
+      <frame id="00000000" xmin="400" ymin="492" xmax="590" ymax="637"/>
+      <text id="00000001" xmin="214" ymin="915" xmax="716" ymax="951">あ</text>
+      <body id="00000002" xmin="848" ymin="236" xmax="985" ymax="614" character="00000003"/>
+      <face id="00000004" xmin="880" ymin="240" xmax="940" ymax="400" character="00000003"/>
+    </page>
+    <page index="3" width="1654" height="1170">
+      <text id="00000005" xmin="133" ymin="632" xmax="1382" ymax="692">オ</text>
+      <body id="00000006" xmin="34" ymin="207" xmax="408" ymax="431" character="00000003"/>
+      <frame id="00000007" xmin="158" ymin="436" xmax="1611" ymax="1073"/>
+      <body id="00000008" xmin="1064" ymin="88" xmax="1539" ymax="503" character="00000003"/>
+      <frame id="00000009" xmin="1462" ymin="5" xmax="1523" ymax="893"/>
+      <face id="0000000a" xmin="305" ymin="908" xmax="1034" ymax="1093" character="00000003"/>
+      <text id="0000000b" xmin="112" ymin="261" xmax="551" ymax="709">え？</text>
+      <frame id="0000000c" xmin="1265" ymin="705" xmax="1291" ymax="1142"/>
+      <text id="0000000d" xmin="45" ymin="430" xmax="708" ymax="824">はあ
+はあ</text>
+      <frame id="0000000e" xmin="100" ymin="200" xmax="300" ymax="400"/>
+      <face id="0000000f" xmin="661" ymin="526" xmax="930" ymax="827" character="00000010"/>
+      <body id="00000011" xmin="1277" ymin="136" xmax="1620" ymax="369" character="00000012"/>
+      <body id="00000013" xmin="996" ymin="307" xmax="1450" ymax="898" character="00000014"/>
+      <text id="00000015" xmin="784" ymin="885" xmax="788" ymax="984">今</text>
+      <text id="00000016" xmin="854" ymin="312" xmax="1263" ymax="387">よ……</text>
+      <text id="00000017" xmin="823" ymin="67" xmax="995" ymax="604">わっ！</text>
+    </page>
+    <page index="4" width="1654" height="1170"/>
+  </pages>
+</book>
