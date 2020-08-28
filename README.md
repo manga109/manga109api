@@ -18,8 +18,8 @@ This package provides a simple Python API to read annotation data (i.e., parsing
 with some utility functions such as reading an image.
 
 ## News
-- [Aug XX, 2020]: v0.2.0 will be released. [The API will be drastically improved](https://github.com/matsui528/manga109api/pull/8), thanks for [@i3ear](https://github.com/i3ear)!
-- [Aug XX, 2020]: The repository is moved to [manga109 organization](https://github.com/manga109)
+- [Aug 28, 2020]: v0.2.0 is out. [The API is drastically improved](https://github.com/matsui528/manga109api/pull/8), thanks for [@i3ear](https://github.com/i3ear)!
+- [Aug 28, 2020]: The repository is moved to [manga109 organization](https://github.com/manga109)
 
 ## Links
 - [Manga109](http://www.manga109.org/en/)
@@ -28,7 +28,7 @@ with some utility functions such as reading an image.
 - [[Aizawa+, IEEE MultiMedia 2020]](https://arxiv.org/abs/2005.04425): The paper introducing (1) the annotation data and (2) a few examples of multimedia processing applications (detection, retrieval, and generation). **Please cite this if you use manga109 annotation data**
 
 ## Installing
-You can install the package via pip. The library works with Python 3.5+ on linux
+You can install the package via pip. The library works with Python 3.5+ on linux/MacOS
 ```bash
 pip install manga109api
 ```
@@ -43,22 +43,29 @@ from pprint import pprint
 manga109_root_dir = "YOUR_DIR/Manga109_2017_09_28"
 p = manga109api.Parser(root_dir=manga109_root_dir)
 
-# See the book titles by p.books 
+
+# (1) Book titles 
 print(p.books)
 # Output: ['ARMS', 'AisazuNihaIrarenai', 'AkkeraKanjinchou', 'Akuhamu', ...
 
-# Access the annotation by p.get_annotation(book)
+
+# (2) Path to an image (page).
+print(p.img_path(book="ARMS", index=3))  # the 4th page of "ARMS"
+# Output (str): YOUR_DIR/Manga109_2017_09_28/images/ARMS/003.jpg
+
+
+# (3) The main annotation data
 annotation = p.get_annotation(book="ARMS")
 
 # annotation is a dictionary. Keys are "title", "character", and "page":
 # - annotation["title"] : (str) Title
-# - annotation["character"] : (list) Characters who appeared in the book
+# - annotation["character"] : (list) Characters who appear in the book
 # - annotation["page"] : (list) The main annotation data for each page
 
-# (1) title
+# (3-a) title
 print(annotation["title"])  # Output (str): ARMS
 
-# (2) character
+# (3-b) character
 pprint(annotation["character"])
 # Output (list):
 # [{'@id': '00000003', '@name': '女1'},
@@ -67,10 +74,9 @@ pprint(annotation["character"])
 #  {'@id': '000000fe', '@name': 'エリー'},
 #  {'@id': '0000010a', '@name': 'ケイト'}, ... ]
 
-# (3) page
+# (3-c) page
 # annotation["page"] is the main annotation data (list of pages)
-# E.g., annotation["page"][3] returns the data of 4th page of "ARMS"
-pprint(annotation["page"][3])
+pprint(annotation["page"][3])  # the data of the 4th page of "ARMS"
 # Output (dict):
 # {'@height': 1170,    <- Height of the img
 #  '@index': 3,        <- The page number
@@ -121,12 +127,6 @@ pprint(annotation["page"][3])
 #            '@xmin': 1155,
 #            '@ymax': 686,
 #            '@ymin': 595} ... ]}
-
-
-# Utility function.
-# p.img_path() gives you the path to the image data. The following line returns the path to the 4th image of ARMS
-print(p.img_path(book="ARMS", index=3))  
-# Output (str): YOUR_DIR/Manga109_2017_09_28/images/ARMS/003.jpg
 ```
 
 
