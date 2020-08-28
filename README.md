@@ -18,7 +18,7 @@ This package provides a simple Python API to read annotation data (i.e., parsing
 with some utility functions such as reading an image.
 
 ## News
-- [Aug XX, 2020]: v0.2.0 will be released. [The API will be drastically improved](https://github.com/matsui528/manga109api/pull/8), thanks for [@i3ear](https://github.com/i3ear)!
+- [Aug 28, 2020]: v0.2.0 is out. [The API is drastically improved](https://github.com/matsui528/manga109api/pull/8), thanks for [@i3ear](https://github.com/i3ear)!
 - [Aug 28, 2020]: The repository is moved to [manga109 organization](https://github.com/manga109)
 
 ## Links
@@ -28,7 +28,7 @@ with some utility functions such as reading an image.
 - [[Aizawa+, IEEE MultiMedia 2020]](https://arxiv.org/abs/2005.04425): The paper introducing (1) the annotation data and (2) a few examples of multimedia processing applications (detection, retrieval, and generation). **Please cite this if you use manga109 annotation data**
 
 ## Installing
-You can install the package via pip. The library works with Python 3.5+ on linux
+You can install the package via pip. The library works with Python 3.5+ on linux/MacOS
 ```bash
 pip install manga109api
 ```
@@ -166,7 +166,6 @@ ARMS, (c) Kato Masaki
 
 ## Maintainers
 - [@matsui528](https://github.com/matsui528)
-- [@fujibo](https://github.com/fujibo)
 
 
 ## Citation

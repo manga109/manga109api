@@ -1,4 +1,7 @@
-.PHONY: clean build test_deploy deploy test
+.PHONY: test clean build test_deploy deploy
+
+test:
+	python -m pytest tests/*
 
 clean:
 	rm -rf build dist *.egg-info
@@ -11,6 +14,3 @@ test_deploy: clean build
 
 deploy: clean build
 	twine upload dist/*
-
-test:
-	python -m pytest tests/*
