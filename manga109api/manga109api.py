@@ -14,7 +14,7 @@ class Parser(object):
         self.root_dir = pathlib.Path(root_dir)
         self.books = []  # book titles
 
-        with (self.root_dir / "books.txt").open("rt", encoding= 'utf-8') as f:
+        with (self.root_dir / "books.txt").open("rt", encoding='utf-8') as f:
             self.books = [line.rstrip() for line in f]
 
     def get_annotation(self, book):
@@ -82,6 +82,9 @@ def _format_annotation(annotation):
 def _format_page_dict_style(page):
     """
     Format page annotation data. Make page data have the same key, and align the style of dict.
+    For example,
+      in:  [{'body': [123], 'face': 123, 'frame': []}]
+      out: [{'body': [123], 'face': [123], 'frame': [], 'text': []}]
 
     Args:
         page (dict): Annotation data for all pages including info such as frame, text, etc.
