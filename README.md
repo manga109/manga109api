@@ -28,7 +28,7 @@ with some utility functions such as reading an image.
 - [[Aizawa+, IEEE MultiMedia 2020]](https://arxiv.org/abs/2005.04425): The paper introducing (1) the annotation data and (2) a few examples of multimedia processing applications (detection, retrieval, and generation). **Please cite this if you use manga109 annotation data**
 
 ## Installing
-You can install the package via pip. The library works with Python 3.5+ on linux/MacOS
+You can install the package via pip. The library works with Python 3.6+ on linux/MacOS
 ```bash
 pip install manga109api
 ```
