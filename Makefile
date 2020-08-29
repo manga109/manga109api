@@ -1,7 +1,7 @@
 .PHONY: test clean build test_deploy deploy
 
 test:
-	python -m pytest tests/*
+	pytest tests/*
 
 clean:
 	rm -rf build dist *.egg-info

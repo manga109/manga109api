@@ -39,7 +39,7 @@ pip install manga109api
 import manga109api
 from pprint import pprint
 
-# Instantiate a parser with the root directory of Manga109
+# (0) Instantiate a parser with the root directory of Manga109
 manga109_root_dir = "YOUR_DIR/Manga109_2017_09_28"
 p = manga109api.Parser(root_dir=manga109_root_dir)
 
