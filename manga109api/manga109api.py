@@ -17,7 +17,7 @@ class Parser(object):
         with (self.root_dir / "books.txt").open("rt", encoding='utf-8') as f:
             self.books = [line.rstrip() for line in f]
 
-    def get_annotation(self, book):
+    def get_annotation(self, book, annotation_type="annotations"):
         """
         Given a book title, return annotation in the form of dict.
 
@@ -28,7 +28,7 @@ class Parser(object):
             annotation (dict): Annotation data consists of dict.
         """
         assert book in self.books
-        with (self.root_dir / "annotations" / (book + ".xml")).open("rt", encoding= 'utf-8') as f:
+        with (self.root_dir / annotation_type / (book + ".xml")).open("rt", encoding= 'utf-8') as f:
             annotation = xmltodict.parse(f.read())
         annotation = json.loads(json.dumps(annotation))  # OrderedDict -> dict
         annotation = _format_annotation(annotation)
@@ -63,7 +63,10 @@ def _format_annotation(annotation):
     """
 
     title = annotation['book']['@title']
-    character = annotation['book']['characters']['character']
+    try:
+        character = annotation['book']['characters']['character']
+    except:
+        character = None
     page = annotation['book']['pages']['page']
 
     if not isinstance(character, list):
