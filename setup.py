@@ -10,7 +10,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='manga109api',
-    version='0.2.0',
+    version='0.2.1',
     description='Simple python API to read annotation data of Manga109',
     long_description=readme,
     long_description_content_type='text/markdown',
