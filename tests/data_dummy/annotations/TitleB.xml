@@ -3,8 +3,9 @@
     <character id="00000017" name="山田太郎"/>
   </characters>
   <pages>
-    <page index="0" width="1654" height="1170"/>
+    <page index="0" width="1654" height="1170">
       <body id="00000018" xmin="848" ymin="236" xmax="985" ymax="614" character="00000017"/>
+    </page>
     <page index="1" width="1654" height="1170"/>
     <page index="2" width="1654" height="1170"/>
   </pages>
