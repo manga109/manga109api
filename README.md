@@ -18,6 +18,7 @@ This package provides a simple Python API to read annotation data (i.e., parsing
 with some utility functions such as reading an image.
 
 ## News
+- [Oct 6, 2020]: v0.3.0 is now available. We added [a tag-order-preserving option](https://github.com/manga109/manga109api/blob/master/manga109api/manga109api.py#L31) for `get_annotation`. See (4) in [the Example section](https://github.com/manga109/manga109api#example) for instructions.
 - [Aug 28, 2020]: v0.2.0 is out. [The API is drastically improved](https://github.com/matsui528/manga109api/pull/8), thanks for [@i3ear](https://github.com/i3ear)!
 - [Aug 28, 2020]: The repository is moved to [manga109 organization](https://github.com/manga109)
 
