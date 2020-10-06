@@ -6,7 +6,7 @@ def test_data_type():
     p = manga109api.Parser(root_dir=manga109_root_dir)
 
     for book in p.books:
-        annotation = p.get_annotation(book=book)
+        annotation = p.get_annotation(book=book, separate_by_tag=False)
 
         # title
         assert isinstance(annotation["title"], str)
@@ -23,7 +23,42 @@ def test_data_type():
             assert isinstance(page["@index"], int)
             assert isinstance(page["@width"], int)
             assert isinstance(page["@height"], int)
-            
+
+            assert isinstance(page["contents"], list)
+            for obj in page["contents"]:
+                assert isinstance(obj["@id"], str)
+                assert isinstance(obj["@xmin"], int)
+                assert isinstance(obj["@xmax"], int)
+                assert isinstance(obj["@ymin"], int)
+                assert isinstance(obj["@ymax"], int)
+                assert isinstance(obj["type"], str)
+
+                if obj["type"] == "text":
+                    assert isinstance(obj["#text"], str)
+
+def test_data_type_separated():
+    manga109_root_dir = "tests/data_dummy/"
+    p = manga109api.Parser(root_dir=manga109_root_dir)
+
+    for book in p.books:
+        annotation = p.get_annotation(book=book, separate_by_tag=True)
+
+        # title
+        assert isinstance(annotation["title"], str)
+
+        # character
+        assert isinstance(annotation["character"], list)
+        for character in annotation["character"]:
+            assert isinstance(character["@id"], str)
+            assert isinstance(character["@name"], str)
+
+        # page
+        assert isinstance(annotation["page"], list)
+        for page in annotation["page"]:
+            assert isinstance(page["@index"], int)
+            assert isinstance(page["@width"], int)
+            assert isinstance(page["@height"], int)
+
             for obj_type in {"body", "face", "frame", "text"}:
                 assert isinstance(page[obj_type], list)
                 for obj in page[obj_type]:
@@ -32,6 +67,7 @@ def test_data_type():
                     assert isinstance(obj["@xmax"], int)
                     assert isinstance(obj["@ymin"], int)
                     assert isinstance(obj["@ymax"], int)
+                    assert obj["type"] == obj_type
 
                     if obj_type == "text":
                         assert isinstance(obj["#text"], str)

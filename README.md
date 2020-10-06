@@ -127,6 +127,48 @@ pprint(annotation["page"][3])  # the data of the 4th page of "ARMS"
 #            '@xmin': 1155,
 #            '@ymax': 686,
 #            '@ymin': 595} ... ]}
+
+# (4) Preserve the raw tag ordering in the output annotation data
+annotation_ordered = p.get_annotation(book="ARMS", separate_by_tag=False)
+
+# In the raw XML in the Manga109 dataset, the bounding box data in the
+# `page` tag is not sorted by its annotation type, and each bounding
+# box type appears in an arbitrary order. When the `separate_by_tag=False`
+# option is set, the output will preserve the ordering of each
+# bounding box tag in the raw XML data, mainly for data editing purposes.
+# Note that the ordering of the bounding box tags does not carry any
+# useful information about the contents of the data.
+
+# Caution: Due to the aforementioned feature, the format of the output
+# dictionary will differ slightly comapred to when the option is not set.
+
+# Here is an example output of the ordered data:
+pprint(annotation_ordered["page"][3])  # the data of the 4th page of "ARMS"
+# Output (dict):
+# {'@height': 1170,
+#  '@index': 3,
+#  '@width': 1654,
+#  'contents': [{'#text': 'キャーッ',
+#                '@id': '00000005',
+#                '@xmax': 685,
+#                '@xmin': 601,
+#                '@ymax': 402,
+#                '@ymin': 291,
+#                'type': 'text'},
+#               {'@character': '00000003',
+#                '@id': '00000006',
+#                '@xmax': 1352,
+#                '@xmin': 1229,
+#                '@ymax': 875,
+#                '@ymin': 709,
+#                'type': 'body'},
+#               {'#text': 'はやく逃げないとまきぞえくっちゃう',
+#                '@id': '00000007',
+#                '@xmax': 1239,
+#                '@xmin': 1155,
+#                '@ymax': 686,
+#                '@ymin': 595,
+#                'type': 'text'}, ... ]}
 ```
 
 
