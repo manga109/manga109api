@@ -2,10 +2,10 @@
   <pages>
     <page index="0" width="1654" height="1170">
       <body id="00000018" xmin="848" ymin="236" xmax="985" ymax="614" character="00000017"/>
-      <custom_tag id="00000019" attr_num="0" attr_str="aaa" attr_mix="123a" character="00000017"/>
-      <custom_tag id="00000020" attr_num="12" attr_str="bbb" attr_mix="456b" character="00000017"/>
-      <custom_tag2 id="00000021" attr_num="345" attr_str="ccc" attr_mix="7cd" character="00000018">dummy_text</custom_tag2>
-      <custom_tag2 id="00000022" attr_num="6789" attr_str="ddd" attr_mix="8ef" character="00000018">dummy_text2</custom_tag2>
+      <custom_tag id="00000019" attr_num="0" attr_str="aaa" attr_mix="123a" attr_unk='111' character="00000017"/>
+      <custom_tag id="00000020" attr_num="12" attr_str="bbb" attr_mix="456b" attr_unk='asdf' character="00000017"/>
+      <custom_tag2 id="00000021" attr_num="345" attr_str="ccc" attr_mix="7cd" attr_unk='1a' attr_unk2='2b' character="00000018">dummy_text</custom_tag2>
+      <custom_tag2 id="00000022" attr_num="6789" attr_str="ddd" attr_mix="8ef" attr_unk='b' attr_unk2='33' character="00000018">dummy_text2</custom_tag2>
     </page>
     <page index="1" width="1654" height="1170"/>
     <page index="2" width="1654" height="1170"/>

@@ -37,9 +37,15 @@ def test_data_type():
                     if obj["type"] == "text":
                         assert isinstance(obj["#text"], str)
 
+                # custom tag test
                 else:
                     assert isinstance(obj["@id"], str)
-                    for key in obj.keys():
+                    assert isinstance(obj["@attr_num"], int)
+                    assert isinstance(obj["@attr_str"], str)
+                    assert isinstance(obj["@attr_mix"], str)
+                    assert isinstance(obj["type"], str)
+
+                    for key in (obj.keys() - {"@id", "@attr_num", "@attr_str", "@attr_mix", "type"}):
                         assert isinstance(obj[key], (int, str))
 
                     if "#text" in obj.keys():
@@ -83,10 +89,16 @@ def test_data_type_separated():
                         if obj_type == "text":
                             assert isinstance(obj["#text"], str)
 
+                # custom tag test
                 elif obj_type not in {"@index", "@width", "@height"}:
                     for obj in page[obj_type]:
                         assert isinstance(obj["@id"], str)
-                        for key in obj.keys():
+                        assert isinstance(obj["@attr_num"], int)
+                        assert isinstance(obj["@attr_str"], str)
+                        assert isinstance(obj["@attr_mix"], str)
+                        assert obj["type"] == obj_type
+                        
+                        for key in (obj.keys() - {"@id", "@attr_num", "@attr_str", "@attr_mix", "type"}):
                             assert isinstance(obj[key], (int, str))
                         
                         if "#text" in obj.keys():
