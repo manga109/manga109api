@@ -26,15 +26,26 @@ def test_data_type():
 
             assert isinstance(page["contents"], list)
             for obj in page["contents"]:
-                assert isinstance(obj["@id"], str)
-                assert isinstance(obj["@xmin"], int)
-                assert isinstance(obj["@xmax"], int)
-                assert isinstance(obj["@ymin"], int)
-                assert isinstance(obj["@ymax"], int)
-                assert isinstance(obj["type"], str)
+                if obj["type"] in {"body", "face", "frame", "text"}:
+                    assert isinstance(obj["@id"], str)
+                    assert isinstance(obj["@xmin"], int)
+                    assert isinstance(obj["@xmax"], int)
+                    assert isinstance(obj["@ymin"], int)
+                    assert isinstance(obj["@ymax"], int)
+                    assert isinstance(obj["type"], str)
 
-                if obj["type"] == "text":
-                    assert isinstance(obj["#text"], str)
+                    if obj["type"] == "text":
+                        assert isinstance(obj["#text"], str)
+
+                else:
+                    assert isinstance(obj["@id"], str)
+                    assert isinstance(obj["@attr_num"], int)
+                    assert isinstance(obj["@attr_str"], str)
+                    assert isinstance(obj["@attr_mix"], str)
+
+                    if "#text" in obj.keys():
+                        assert isinstance(obj["#text"], str)
+
 
 def test_data_type_separated():
     manga109_root_dir = "tests/data_dummy/"
@@ -59,15 +70,26 @@ def test_data_type_separated():
             assert isinstance(page["@width"], int)
             assert isinstance(page["@height"], int)
 
-            for obj_type in {"body", "face", "frame", "text"}:
-                assert isinstance(page[obj_type], list)
-                for obj in page[obj_type]:
-                    assert isinstance(obj["@id"], str)
-                    assert isinstance(obj["@xmin"], int)
-                    assert isinstance(obj["@xmax"], int)
-                    assert isinstance(obj["@ymin"], int)
-                    assert isinstance(obj["@ymax"], int)
-                    assert obj["type"] == obj_type
+            for obj_type in page.keys():
+                if obj_type in {"body", "face", "frame", "text"}:
+                    assert isinstance(page[obj_type], list)
+                    for obj in page[obj_type]:
+                        assert isinstance(obj["@id"], str)
+                        assert isinstance(obj["@xmin"], int)
+                        assert isinstance(obj["@xmax"], int)
+                        assert isinstance(obj["@ymin"], int)
+                        assert isinstance(obj["@ymax"], int)
+                        assert obj["type"] == obj_type
 
-                    if obj_type == "text":
-                        assert isinstance(obj["#text"], str)
+                        if obj_type == "text":
+                            assert isinstance(obj["#text"], str)
+
+                elif obj_type not in {"@index", "@width", "@height"}:
+                    for obj in page[obj_type]:
+                        assert isinstance(obj["@id"], str)
+                        assert isinstance(obj["@attr_num"], int)
+                        assert isinstance(obj["@attr_str"], str)
+                        assert isinstance(obj["@attr_mix"], str)
+
+                        if "#text" in obj.keys():
+                            assert isinstance(obj["#text"], str)
