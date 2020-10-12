@@ -18,7 +18,6 @@ class Parser(object):
         with (self.root_dir / "books.txt").open("rt", encoding='utf-8') as f:
             self.books = [line.rstrip() for line in f]
 
-
     def get_annotation(self, book, annotation_type="annotations", separate_by_tag=True):
         """
         Given a book title, return its annotations as a dict.
@@ -62,15 +61,18 @@ class Parser(object):
                 input:  {"index": "5", "title": "a"}
                 output: {"@index": 5,  "@title": "a"}
             """
-            return dict([("@"+k, int_literals_to_int(v)) for k, v in d.items()])
+            return dict([("@" + k, int_literals_to_int(v)) for k, v in d.items()])
 
         with (self.root_dir / annotation_type / (book + ".xml")).open("rt", encoding='utf-8') as f:
             xml = ET.parse(f).getroot()
-        annotation = {"title" : xml.attrib["title"]}
+        annotation = {"title": xml.attrib["title"]}
 
         characters = []
-        for t in xml.find("characters"):
-            characters.append(formatted_dict(t.attrib))
+        try:
+            for t in xml.find("characters"):
+                characters.append(formatted_dict(t.attrib))
+        except:
+            pass
         annotation["character"] = characters
 
         pages = []
@@ -90,7 +92,10 @@ class Parser(object):
                 d["type"] = bb_xml.tag
 
                 if separate_by_tag:
-                    page[bb_xml.tag].append(d)
+                    try:
+                        page[bb_xml.tag].append(d)
+                    except:
+                        page[bb_xml.tag] = [d]
                 else:
                     page["contents"].append(d)
 
