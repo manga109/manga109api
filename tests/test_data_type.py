@@ -39,9 +39,8 @@ def test_data_type():
 
                 else:
                     assert isinstance(obj["@id"], str)
-                    assert isinstance(obj["@attr_num"], int)
-                    assert isinstance(obj["@attr_str"], str)
-                    assert isinstance(obj["@attr_mix"], str)
+                    for key in obj.keys():
+                        assert isinstance(obj[key], (int, str))
 
                     if "#text" in obj.keys():
                         assert isinstance(obj["#text"], str)
@@ -87,9 +86,8 @@ def test_data_type_separated():
                 elif obj_type not in {"@index", "@width", "@height"}:
                     for obj in page[obj_type]:
                         assert isinstance(obj["@id"], str)
-                        assert isinstance(obj["@attr_num"], int)
-                        assert isinstance(obj["@attr_str"], str)
-                        assert isinstance(obj["@attr_mix"], str)
-
+                        for key in obj.keys():
+                            assert isinstance(obj[key], (int, str))
+                        
                         if "#text" in obj.keys():
                             assert isinstance(obj["#text"], str)
