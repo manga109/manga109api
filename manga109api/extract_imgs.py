@@ -38,8 +38,11 @@ if __name__ == "__main__":
             rois = annotation["page"][page_index][annotation_type]
             for roi in rois:
                 cropped = img.crop((roi["@xmin"], roi["@ymin"], roi["@xmax"], roi["@ymax"]))
-                cropped = cropped.resize((ap.size, ap.size), Image.ANTIALIAS)
-                cropped.save("manga109extracted/%s_%d.jpg" % (ap.book, count))
-                count += 1
-                tracker += 1
+                image_x_dim, image_y_dim = cropped.size
+                if ap.preprocess:
+                    cropped = cropped.resize((ap.size, ap.size), Image.ANTIALIAS)
+                if image_x_dim >= (ap.size / 2) and image_y_dim >= (ap.size / 2):
+                    cropped.save("manga109extracted/%s_%d.jpg" % (ap.book, count))
+                    count += 1
+                    tracker += 1
         print("Extracted %d %s images from page %d of %s's book." % (tracker, ap.annotation, page_index + 1, ap.book))
